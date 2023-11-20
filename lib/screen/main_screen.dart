@@ -1,43 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:n_design/data/data.dart';
 
 
-
-
-final List<Map<String, String>> imgList = [
-  {
-    'imagePath': 'assets/images/carusel-1.jpg',
-    'title': 'Apartment Design in King David, Tbilisi.',
-  },
-  {
-    'imagePath': 'assets/images/carusel-2.jpg',
-    'title': 'Apartment Design in Blox, Tbilisi.',
-  },
-  {
-    'imagePath': 'assets/images/carusel-3.jpg',
-    'title': 'Apartment Design In Poland Bernandynska.',
-  },
-  {
-    'imagePath': 'assets/images/carusel-4.jpg',
-    'title': 'Title 4',
-  },
-  {
-    'imagePath': 'assets/images/carusel-5.jpg',
-    'title': 'Title 5',
-  },
-  {
-    'imagePath': 'assets/images/carusel-6.jpg',
-    'title': 'Title 6',
-  },
-];
-
-List<Widget> generateImageSliders(List<Map<String, String>> imgList, BuildContext context) {
-  return imgList.map((item) {
+List<Widget> generateImageSliders(List<Map<String, String>> projectsData, BuildContext context) {
+  return projectsData.map((item) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
           context,
-          '/drawerdetail',
+          '/projectsdetail',
           arguments: {
             'imagePath': item['imagePath'],
             'title': item['title'],
@@ -143,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                     viewportFraction: 0.9,
                     autoPlayCurve: Curves.fastOutSlowIn,
                   ),
-                  items: generateImageSliders(imgList, context),
+                  items: generateImageSliders(projectsData, context),
                 );
               },
             ),

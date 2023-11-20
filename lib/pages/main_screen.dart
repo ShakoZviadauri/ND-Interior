@@ -218,7 +218,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             _bottomNavIndex = index;
             switch (index) {
               case 0:
-                _currentScreen = const ProjectScreen();
+                _currentScreen = ProjectScreen();
                 _showAppBar = true;
                 // _customAppBarTitle = 'Project';
                 break;

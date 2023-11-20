@@ -3,7 +3,9 @@ import 'package:n_design/pages/drawer_screen.dart';
 import 'package:n_design/pages/main_screen.dart';
 
 import 'package:n_design/screen/living_room_screen.dart'; //Living Room Screen
-import 'package:n_design/screen/drawer_details.dart'; //Living Room Screen
+import 'package:n_design/screen/drawer_details.dart'; //Drawer Details
+import 'package:n_design/single/projects_detail.dart'; //Living Room Screen
+
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const DrawerScreen(),
         '/livingroom': (context) => const MainScreen(),
         '/drawerdetail': (context) => const DrawerDetail(),
+        '/projectsdetail': (context) => const ProjectsDetail(),
       },
     );
   }
