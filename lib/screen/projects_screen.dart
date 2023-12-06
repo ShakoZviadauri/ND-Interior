@@ -1,27 +1,110 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:n_design/pages/drawer_screen.dart';
 import 'package:n_design/screen/living_room_screen.dart'; // Import other screens if needed
 import 'package:n_design/data/data.dart';
+import 'package:n_design/services/localization_service.dart';
+import 'package:provider/provider.dart';
 
 
+class ProjectScreen extends StatefulWidget {
+  const ProjectScreen({Key? key}) : super(key: key);
+  
+  @override
+  _ProjectScreenState createState() => _ProjectScreenState();
+}
 
 // ignore: must_be_immutable
-class ProjectScreen extends StatelessWidget {
-  ProjectScreen({Key? key}) : super(key: key);
+class _ProjectScreenState extends State<ProjectScreen> {
+ 
+  late Future<List<Map<String, dynamic>>> projectsFuture;
+  List<Map<String, dynamic>> projectsData = [];
+  // LocalizationService localizationService = LocalizationService.getInstance();
+  
 
-  // List<Map<String, String>> filteredProjects = projectsData.where((project) => project['category'] == '1').toList();
+  final ScrollController _scrollController = ScrollController();
+  bool _isTop = false;
+
+  // List<Map<String, dynamic>> filteredProjects = projectsData.where((project) => project['category'] == '1').toList();
+  // projectsData.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  // projectsData.sort((Tab, Tab), {super.key} => a['id'].compareTo(b['id']));
+  
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+    projectsFuture = fetchData();
+    _scrollController.addListener(_scrollListener);
+
+  }
+
+  Future<List<Map<String, dynamic>>> fetchData() async {
+    List<Map<String, dynamic>> fetchedProjectsData = await ApiHelper.fetchProjectsData(localizationService);
+
+    await Future.delayed(const Duration(milliseconds: 400));
+    setState(() {
+      projectsData = fetchedProjectsData;
+    });
+    return Future.value(fetchedProjectsData); // Return the fetched data as Future<List<Map<String, dynamic>>>
+  }
+  
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+  void _scrollListener() {
+    if (_scrollController.offset <= _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        _isTop = true;
+      });
+    } else {
+      setState(() {
+        _isTop = false;
+      });
+    }
+  }
+
+
+
+
+
+  // Future<void> fetchData() async {
+  //   List<Map<String, dynamic>> fetchedProjectsData = await ApiHelper.fetchProjectsData();
+  //   setState(() {
+  //     projectsData = fetchedProjectsData;
+  //   });
+  // }
+  Future<void> _refresh() async {
+    try {
+      List<Map<String, dynamic>> refreshedProjectsData = await ApiHelper.fetchProjectsData(localizationService);
+      setState(() {
+        projectsData = refreshedProjectsData;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Handle error scenarios
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    var localizationService = Provider.of<LocalizationService>(context);
+
     return Container(
       color: Colors.white,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: HexColor("#fafafa"),
-          title: const Text(
-            "All Project's",
+          title: Text(
+            localizationService.translate('all_projects') ?? '', 
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -50,12 +133,22 @@ class ProjectScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.only(top: 20, bottom: 50),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: projectsData.map((data) {
-              return Card(
+        body: FutureBuilder<List<Map<String, dynamic>>>(
+          future: projectsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.only(top: 20, bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: snapshot.data!.map((data) {
+                    
+
+                      return Card(
                 elevation: 0.5,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
@@ -69,16 +162,14 @@ class ProjectScreen extends StatelessWidget {
                             context,
                             '/projectsdetail',
                             arguments: {
-                              'imagePath': data['imagePath'],
-                              'title': data['title'],
-                              // Add other data fields here
+                              'id': data['id']
                             },
                           );
                         },
-                        child: Image.asset(
-                          data['imagePath']!, // Access imagePath from card data
+                        child: Image.network(
+                          data['imagePath'], 
                           fit: BoxFit.cover,
-                          height: 250,
+                          height: 200,
                           width: MediaQuery.of(context).size.width,
                         ),
                       ),
@@ -111,12 +202,30 @@ class ProjectScreen extends StatelessWidget {
                   ],
                 ),
               );
-            }).toList(),
-          ),
+
+                  }).toList(),
+                ),
+              );
+            } else {
+              return Center(child: Text('No data available'));
+            }
+          },
         ),
       ),
     );
   }
+
+
 }
+
+//   @override
+//   Widget build(BuildContext context) {
+    
+//     // projectsData.sort((a, b) => a['id'].compareTo(b['id'])); //order by ASC
+//     projectsData.sort((a, b) => b['id'].compareTo(a['id'])); // order by DESC
+
+//     return 
+//   }
+// }
 
 // Rest of your code...

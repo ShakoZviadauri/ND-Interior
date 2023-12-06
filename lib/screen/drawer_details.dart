@@ -6,11 +6,10 @@ class DrawerDetail extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve arguments passed from the previous screen
-    final Map<String, String?>? arguments = ModalRoute.of(context)!.settings.arguments as Map<String, String?>?;
+    final Map<String, dynamic>? arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+      print(arguments);
 
     if (arguments == null || arguments.isEmpty) {
-      // Handle case where arguments are missing or empty
       return Scaffold(
         appBar: AppBar(
           title: const Text('Error'),
@@ -19,10 +18,11 @@ class DrawerDetail extends StatelessWidget{
           child: Text('Invalid data provided'),
         ),
       );
+
+
     }
 
-    // Retrieve imagePath and title from arguments
-    final String imagePath = arguments['imagePath'] ?? '';
+
     final String title = arguments['title'] ?? '';
 
     return Scaffold(
@@ -34,12 +34,12 @@ class DrawerDetail extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              imagePath,
-              width: 300, // Adjust the size as needed
-              height: 300, // Adjust the size as needed
-              fit: BoxFit.cover,
-            ),
+            // Image.network(
+            //   imagePath,
+            //   width: 300, // Adjust the size as needed
+            //   height: 300, // Adjust the size as needed
+            //   fit: BoxFit.cover,
+            // ),
             const SizedBox(height: 20),
             Text(
               title,
@@ -48,7 +48,6 @@ class DrawerDetail extends StatelessWidget{
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // You can display additional information here based on your data
           ],
         ),
       ),

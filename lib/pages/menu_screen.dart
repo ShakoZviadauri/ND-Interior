@@ -1,4 +1,8 @@
+// import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:n_design/services/localization_service.dart';
+import 'package:provider/provider.dart';
+
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -7,9 +11,23 @@ class MenuScreen extends StatefulWidget {
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
+
 class _MenuScreenState extends State<MenuScreen> {
+
+  final LocalizationService localizationService = LocalizationService.getInstance();
+  
+
+  void _changeLanguage(Locale locale, BuildContext context) {
+    var localizationService = Provider.of<LocalizationService>(context, listen: false);
+    localizationService.changeLanguage(locale);
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+    var localizationService = Provider.of<LocalizationService>(context);
+
     return Scaffold(
       backgroundColor: HexColor("#525FE1"), //HexColor("#F6F4EB")
       body: Column(        
@@ -28,14 +46,14 @@ class _MenuScreenState extends State<MenuScreen> {
             margin: const EdgeInsets.only(top: 10, left: 20),
             child : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(40),
+                minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent
               ),
               onPressed: () {},
-              child: const Text(
-                'Home', 
-                style: TextStyle(
+              child: Text(
+                localizationService.translate('home') ?? '',
+                style: const TextStyle(
                   color: Colors.white, 
                   fontFamily: "NotoSansGeorgian",
                   fontWeight: FontWeight.w500,
@@ -48,14 +66,14 @@ class _MenuScreenState extends State<MenuScreen> {
             margin: const EdgeInsets.only(top: 0, left: 20),
             child : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(40),
+                minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent
               ),
               onPressed: () {},
-              child: const Text(
-                'Gallery', 
-                style: TextStyle(
+              child: Text(
+                localizationService.translate('gallery') ?? '', 
+                style: const TextStyle(
                   color: Colors.white, 
                   fontFamily: "NotoSansGeorgian",
                   fontWeight: FontWeight.w500,
@@ -68,14 +86,14 @@ class _MenuScreenState extends State<MenuScreen> {
             margin: const EdgeInsets.only(top: 0, left: 20),
             child : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(40),
+                minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent
               ),
               onPressed: () {},
-              child: const Text(
-                'Projects', 
-                style: TextStyle(
+              child: Text(
+                localizationService.translate('projects') ?? '', 
+                style: const TextStyle(
                   color: Colors.white, 
                   fontFamily: "NotoSansGeorgian",
                   fontWeight: FontWeight.w500,
@@ -88,14 +106,14 @@ class _MenuScreenState extends State<MenuScreen> {
             margin: const EdgeInsets.only(top: 0, left: 20),
             child : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(40),
+                minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent
               ),
               onPressed: () {},
-              child: const Text(
-                'About', 
-                style: TextStyle(
+              child: Text(
+                localizationService.translate('about') ?? '', 
+                style: const TextStyle(
                   color: Colors.white, 
                   fontFamily: "NotoSansGeorgian",
                   fontWeight: FontWeight.w500,
@@ -104,6 +122,78 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
           ),
+
+
+            const SizedBox(height: 20),
+
+            // Language List
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _changeLanguage(const Locale('en'), context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                       shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7), 
+                      ),
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor: localizationService.getLocale().languageCode == 'en' ? Colors.black : Colors.white,
+                    ),
+                    child: Text('EN', 
+                      style: TextStyle(
+                        color: localizationService.getLocale().languageCode == 'en' ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+                  // SizedBox(width: 10,),
+                  ElevatedButton(
+                    onPressed: () {
+                      _changeLanguage(const Locale('ka'), context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                       shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7), 
+                      ),
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor: localizationService.getLocale().languageCode == 'ka' ? Colors.black : Colors.white,
+                    ),
+                    child: Text('KA', 
+                      style: TextStyle(
+                        color: localizationService.getLocale().languageCode == 'ka' ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+                  // Georgian language button
+                  ElevatedButton(
+                    onPressed: () {
+                      _changeLanguage(const Locale('ru'), context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7), 
+                      ),
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor: localizationService.getLocale().languageCode == 'ru' ? Colors.black : Colors.white,
+                    ),
+                    child: Text('RU', 
+                      style: TextStyle(
+                        color: localizationService.getLocale().languageCode == 'ru' ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+
+
 
         ],
       ),

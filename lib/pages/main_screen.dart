@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
@@ -130,32 +130,33 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   }
 
 
-  AppBar _buildCustomAppBar(String title) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      title: Text(
-        title,
-        style: const TextStyle(
-          color: Colors.black
-        ),
-      ),
-      leading: IconButton(
-        icon: const Icon(
-          Icons.arrow_back,
-          color: Colors.black,
-        ), // Custom back icon
-        onPressed: () {
-          setState(() {
-            _currentScreen = HomeScreen(); // Navigate back to the first screen
-            _showAppBar = false;
-          });
-        },
-      ),
-    );
-  }
+  // AppBar _buildCustomAppBar(String title) {
+  //   return AppBar(
+  //     backgroundColor: Colors.white,
+  //     title: Text(
+  //       title,
+  //       style: const TextStyle(
+  //         color: Colors.black
+  //       ),
+  //     ),
+  //     leading: IconButton(
+  //       icon: const Icon(
+  //         Icons.arrow_back,
+  //         color: Colors.black,
+  //       ), // Custom back icon
+  //       onPressed: () {
+  //         setState(() {
+  //           _currentScreen = HomeScreen(); // Navigate back to the first screen
+  //           _showAppBar = false;
+  //         });
+  //       },
+  //     ),
+  //   );
+  // }
 
 
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _showAppBar ? null : _buildMainAppBar(),
