@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="ic_launcher_background">#e0ebed</color>
+
+    <!-- Primary brand color -->
+    <color name="colorPrimary">#3F51B5</color>
+    
+    <!-- Dark variant of the primary color -->
+    <color name="colorPrimaryDark">#303F9F</color>
+    
+    <!-- Accent color that complements the primary color -->
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Other colors -->
+    <!-- <color name="colorName">#HEX_VALUE</color> -->
+</resources>

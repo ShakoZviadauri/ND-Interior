@@ -7,5 +7,11 @@
     "about": "About",
     "all_projects": "All projects",
     "keep_inspire": "Dedicated for you who want to keep inspire.",
-    "featured": "Featured"
+    "featured": "Featured",
+    "filters_option": "Filter Options",
+    "sort_popularity": "Sort By Popularity",
+    "sort_likes": "Sort By Likes",
+    "sort_verify": "Sort By Verify",
+    "sort_date": "Sort By Date",
+    "button_apply": "Apply Filters"
 }

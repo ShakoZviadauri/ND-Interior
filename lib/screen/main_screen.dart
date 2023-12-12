@@ -1,34 +1,35 @@
 import 'dart:ffi';
+import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:n_design/data/data.dart';
 import 'package:n_design/services/localization_service.dart';
 import 'package:provider/provider.dart';
-
-// ignore: constant_identifier_names
-String maximumId = '2';
-// const IconData location_on = IconData(0xe3ab, fontFamily: 'MaterialIcons');
-
- // Get the length of the resulting list
+import 'package:octo_image/octo_image.dart';
 
 
-List<Widget> generateImageSliders(List<Map<String, String>> projectsData, BuildContext context) {
-
-  int startingIndex = projectsData.length >= 3 ? projectsData.length - 3 : 0;
-  List<Map<String, String>> latestProjects = projectsData.sublist(startingIndex);
-  // LocalizationService localizationService = LocalizationService.getInstance();
 
 
-  return latestProjects.map((item) {
+Future<List<Widget>> generateImageSliders(List<Map<String, dynamic>> projectsData, BuildContext context) async {
+
+  var localizationService = Provider.of<LocalizationService>(context);
+
+  // Locale languageKey = localizationService.getLocale();
+  // print(languageKey);
+
+  List<Widget> sliders = projectsData.map((item) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
           context,
           '/projectsdetail',
           arguments: {
-            'id': item['id']
+            'id': item['id'],
+            'localizationService': localizationService,
           },
         );
       },
@@ -40,12 +41,23 @@ List<Widget> generateImageSliders(List<Map<String, String>> projectsData, BuildC
           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           child: Stack(
             children: <Widget>[
-              Image.asset(
-                item['imagePath']!,
-                fit: BoxFit.cover,
-                width: 1000.0,
-                height: 500,
+
+
+              CachedNetworkImage(
+                imageUrl: item['imagePath']!,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      colorFilter: const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
+
               Positioned(
                 bottom: 0.0,
                 left: 0.0,
@@ -67,14 +79,18 @@ List<Widget> generateImageSliders(List<Map<String, String>> projectsData, BuildC
                     children: [
                       Row(
                         children: [
-                          Text(
-                            item['title']!,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Ubuntu-Regular",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
+                          Flexible(
+                            child: Text(
+                              item['title']!,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Ubuntu-Regular",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
@@ -89,7 +105,7 @@ List<Widget> generateImageSliders(List<Map<String, String>> projectsData, BuildC
                           ),
                           const SizedBox(width: 5), 
                           Text(
-                            item['location']!,
+                            item['location'] ?? 'Not Found.',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -109,17 +125,47 @@ List<Widget> generateImageSliders(List<Map<String, String>> projectsData, BuildC
       ),
     );
   }).toList();
+
+  return sliders;
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key});
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+  
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // const HomeScreen({Key? key});
+  
+  List<Map<String, dynamic>> projectsData = [];
+
+  Future<void> fetchData() async {
+    List<Map<String, dynamic>> fetchedProjectsData = await ApiHelperMainCarusel.fetchProjectsData(localizationService);
+
+    setState(() {
+      projectsData = fetchedProjectsData;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-    List<Map<String, String>> stringProjectsData = convertToMapOfString(projectsData);
+    // List<Map<String, String>> stringProjectsData = convertToMapOfString(projectsData);
 
     var localizationService = Provider.of<LocalizationService>(context);
+
 
     return Scaffold(
       body: Column(
@@ -149,31 +195,91 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                final screenHeight = MediaQuery.of(context).size.height;
-                return CarouselSlider(
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    aspectRatio: 1.0,
-                    enlargeCenterPage: true,
-                    enlargeStrategy: CenterPageEnlargeStrategy.height,
-                    height: screenHeight * 0.6,
-                    viewportFraction: 0.9,
-                    autoPlayCurve: Curves.fastOutSlowIn,
+          FutureBuilder<List<Widget>>(
+            future: generateImageSliders(projectsData, context),
+            builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              //   return Container(
+              //     height: 450,
+              //     width: 1000,
+              //     child: const Center(
+              //       child: CircularProgressIndicator(color: Colors.white,),
+              //     ),
+              //   );
+              // }
+              if (snapshot.hasError) {
+                return const Text('Error fetching data');
+              } else if (snapshot.hasData) {
+                return Container(
+                  padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                  child: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      final screenHeight = MediaQuery.of(context).size.height;
+                      return CarouselSlider(
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          aspectRatio: 1.0,
+                          enlargeCenterPage: true,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          height: screenHeight * 0.6,
+                          viewportFraction: 0.9,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                        ),
+                        items: snapshot.data!, // Use the fetched widget list here
+                      );
+                    },
                   ),
-                  items: generateImageSliders(stringProjectsData, context),
                 );
-              },
-            ),
+              } else {
+                return Container(); // Return an empty container by default
+              }
+            },
           ),
         ],
       ),
     );
   }
 }
+
+
+OctoSet blurHash(
+  String hash, {
+  BoxFit? fit,
+  Text? errorMessage,
+}) {
+  return OctoSet(
+    placeholderBuilder: blurHashPlaceholderBuilder(hash, fit: fit),
+    errorBuilder: blurHashErrorBuilder(hash, fit: fit),
+  );
+}
+
+OctoPlaceholderBuilder blurHashPlaceholderBuilder(String hash, {BoxFit? fit}) {
+  return (context) => SizedBox.expand(
+    child: Image(
+      image: BlurHashImage(hash),
+      fit: fit ?? BoxFit.cover,
+    ),
+  );
+}
+
+
+OctoErrorBuilder blurHashErrorBuilder(
+  String hash, {
+  BoxFit? fit,
+  Text? message,
+  IconData? icon,
+  Color? iconColor,
+  double? iconSize,
+}) {
+  return OctoError.placeholderWithErrorIcon(
+    blurHashPlaceholderBuilder(hash, fit: fit),
+    message: message,
+    icon: icon,
+    iconColor: iconColor,
+    iconSize: iconSize,
+  );
+}
+
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {

@@ -52,4 +52,11 @@ class LocalizationService with ChangeNotifier {
     _locale = locale;
     await _loadLanguage();
   }
+
+  void initializeLocale(Locale locale) {
+    _locale = locale;
+  }
+
+  Locale get locale => _locale;
+
 }

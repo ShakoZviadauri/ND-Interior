@@ -1,4 +1,5 @@
 // import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -11,10 +12,14 @@ import 'package:n_design/screen/drawer_details.dart'; //Drawer Details
 import 'package:n_design/single/projects_detail.dart'; //Living Room Screen
 import 'package:n_design/services/localization_service.dart';
 import 'package:provider/provider.dart';
-// import 'package:n_design/data/data.dart'; //Living Room Screen
+
+
+
 
 
 void main() {
+  CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
+
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocalizationService.getInstance(),

@@ -1,12 +1,16 @@
 <manifest 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <application
-        android:label="n_design"
+        android:label="ND Interior"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         tools:overrideLibrary="com.mastertipsy.flutter_localization">
+        
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
