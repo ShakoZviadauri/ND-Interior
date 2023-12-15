@@ -121,8 +121,11 @@ flutter:
       - assets/images/carusel-5.jpg
       - assets/images/carusel-6.jpg
 
-      - assets/profile/n_demetradze.jpg
+      - assets/profile/user_image.png
       - assets/images/scheme_2.jpg
+      - assets/icon/ic_launcher.png
+      
+      - assets/images/Image_not_available.png
 
       - assets/
       - assets/en.json

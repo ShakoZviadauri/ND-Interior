@@ -277,12 +277,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
 //   }
 
 Widget YourCardWidget(BuildContext context, {required Map<String, dynamic> data}){
+
+
   return Card(
     elevation: 0.5,
     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           child: GestureDetector(
@@ -362,7 +365,7 @@ Widget ImageWithOverlayText(context, data){
                   gradient: LinearGradient(
                     begin: Alignment.centerRight,
                     end: Alignment.centerLeft,
-                    colors: [Colors.black.withOpacity(0.6), Colors.transparent],
+                    colors: [Colors.blue.withOpacity(0), Colors.transparent],
                   ),
                 ),
                 width: 50,
@@ -378,7 +381,7 @@ Widget ImageWithOverlayText(context, data){
                 child: Icon(
                   Icons.verified,
                   size: 20,
-                  color: Colors.lightGreen,
+                  color: Colors.blue,
                 )
               ),
             

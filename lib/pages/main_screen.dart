@@ -26,7 +26,7 @@ class MainScreen extends StatefulWidget {
 
 
   final iconList = <IconData>[
-    FontAwesomeIcons.houseTsunami,
+    FontAwesomeIcons.house,
     FontAwesomeIcons.bed,
     FontAwesomeIcons.toilet,
     FontAwesomeIcons.couch,
@@ -101,10 +101,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
 
   // Main Home Screen
-
-
-
-
 
  AppBar _buildMainAppBar() {
     return AppBar(

@@ -7,7 +7,7 @@ import 'package:n_design/services/localization_service.dart';
 
 
 
-const String apiKey = 'br89q4b9gb';
+const String apiKey = 'Your key';
 LocalizationService localizationService = LocalizationService.getInstance();
 
 
@@ -124,6 +124,7 @@ class ThreedmodelService {
         final threedmodelDetailsData = json.decode(response.body);
         return threedmodelDetailsData;
       } else {
+        print(response.statusCode);
         throw Exception('Failed to fetch threedmodel details');
       }
     } catch (e) {

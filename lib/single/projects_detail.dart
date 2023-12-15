@@ -128,7 +128,7 @@ class _ProjectsDetailPageState extends State<ProjectsDetailPage> {
                                 const SizedBox(height: 20,),
                                 thirdRowWidget(data),
                                 const SizedBox(height: 20,),
-                                fourthRowWidget(),
+                                fourthRowWidget(size),
                                 const SizedBox(height: 25,),
                                 fiftRowWidget(data),
                                 const SizedBox(height: 20,),
@@ -328,6 +328,16 @@ Widget secondTextWidget(data){
   );
 }
 
+
+
+ImageProvider<Object> userProfileImage(String imagePath) {
+  if (imagePath != null && imagePath.isNotEmpty) {
+    return NetworkImage(imagePath);
+  } else {
+    return AssetImage('assets/profile/user_image.png');
+  }
+}
+
 Widget thirdRowWidget(data){
   return Row(
     mainAxisSize: MainAxisSize.max,
@@ -343,29 +353,29 @@ Widget thirdRowWidget(data){
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               shape: BoxShape.rectangle,
-              image: const DecorationImage(
-                  image: AssetImage('assets/profile/n_demetradze.jpg'),
+              image: DecorationImage(
+                  image: userProfileImage(data['user_profile_pic'] ?? ''),
                   fit: BoxFit.cover
-                )
+                ),
               ),
           ),
           const SizedBox(
             width: 15,
           ),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Nina Demetradze",
-                style: TextStyle(
+                data['user_name'] ?? 'User Name',
+                style: const TextStyle(
                     fontSize: 16, 
                     fontWeight: 
                     FontWeight.bold
                 ),
               ),
               Text(
-                "Interior Designer",
-                style: TextStyle(fontSize: 13),
+                data['user_profession'] ?? 'User Profession',
+                style: const TextStyle(fontSize: 13),
               ),
             ],
           ),
@@ -377,7 +387,6 @@ Widget thirdRowWidget(data){
         onTap: () async {
           String apiURL = data['profile_url'];
           Uri uri = Uri.parse(apiURL);
-          
           await _launchInBrowser(uri);
         },
         child: Container(
@@ -399,50 +408,48 @@ Widget thirdRowWidget(data){
 }
 
 
-Widget fourthRowWidget(){
+
+Widget fourthRowWidget(size){
+  
   return Row(
     children: <Widget>[
       Container(
+        width: size.width - 200,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(6)
+          border: const Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 1,
+            )
+          ),
+          borderRadius: BorderRadius.circular(0)
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(6.0),
-          child: Text("Interior"),
+        child: Padding(
+          padding: EdgeInsets.only(top: 10, bottom: 10),
+          child: Text(
+            localizationService.translate('about_projects_title') ?? '',
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontFamily: "Ubuntu-Regular"
+            ),
+          ),
         ),
       ),
-      const SizedBox(
-        width: 20,
-      ),
-      Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(6)
-        ),
-        child:const Padding(
-          padding: EdgeInsets.all(6.0),
-          child: Text("40m2"),
-        ),
-      ),
-      const SizedBox(
-        width: 20,
-      ),
-      Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(6)
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(6.0),
-          child: Text("Ideas"),
-        ),
-      )
     ],
   );
 }
 
 
+
+
+ImageProvider<Object> modelSchemeImage(String imagePath) {
+  if (imagePath != null && imagePath.isNotEmpty) {
+    return NetworkImage(imagePath);
+  } else {
+    return AssetImage('assets/images/Image_not_available.png');
+  }
+}
 Widget fiftRowWidget(data){
   return Container(
     height: 150,
@@ -450,7 +457,7 @@ Widget fiftRowWidget(data){
       borderRadius: BorderRadius.circular(6),
       image: DecorationImage(
         fit: BoxFit.cover,
-        image: NetworkImage(data['scheme']!),
+        image: modelSchemeImage(data['scheme'] ?? ''),
       ),
     ),
   );

@@ -31,30 +31,34 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       backgroundColor: HexColor("#525FE1"), //HexColor("#F6F4EB")
       body: Column(        
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
+
         children: [
-          // Container(
-          //   margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-          //   child: Image.asset(
-          //     'assets/images/logo_v1.jpg',
-          //     height: 110,
-          //     fit: BoxFit.fill,
-          //   ),
-          // ),
+          const SizedBox(height: 150,),
+          Container(
+            margin: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+            child: Image.asset(
+              'assets/icon/ic_launcher.png',
+              height: 80,
+              fit: BoxFit.fill,
+            ),
+          ),
+          const SizedBox(height: 80,),
           Container(
             margin: const EdgeInsets.only(top: 10, left: 20),
             child : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
-                backgroundColor: Colors.transparent
+                backgroundColor: Colors.white,
+                shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
               onPressed: () {},
               child: Text(
                 localizationService.translate('home') ?? '',
                 style: const TextStyle(
-                  color: Colors.white, 
+                  color: Colors.black, 
                   fontFamily: "NotoSansGeorgian",
                   fontWeight: FontWeight.w500,
                   fontSize: 15
@@ -68,7 +72,8 @@ class _MenuScreenState extends State<MenuScreen> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
-                backgroundColor: Colors.transparent
+                backgroundColor: Colors.transparent,
+                shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
               onPressed: () {},
               child: Text(
@@ -88,7 +93,8 @@ class _MenuScreenState extends State<MenuScreen> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
-                backgroundColor: Colors.transparent
+                backgroundColor: Colors.transparent,
+                shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
               onPressed: () {},
               child: Text(
@@ -108,7 +114,8 @@ class _MenuScreenState extends State<MenuScreen> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(40),
                 shadowColor: Colors.transparent,
-                backgroundColor: Colors.transparent
+                backgroundColor: Colors.transparent,
+                shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
               onPressed: () {},
               child: Text(
@@ -124,13 +131,15 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
 
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 80),
 
             // Language List
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(top: 10, left: 20, bottom: 10, right: 10,),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   ElevatedButton(
                     onPressed: () {
