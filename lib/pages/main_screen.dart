@@ -26,7 +26,7 @@ class MainScreen extends StatefulWidget {
 
 
   final iconList = <IconData>[
-    FontAwesomeIcons.house,
+    FontAwesomeIcons.houseTsunami,
     FontAwesomeIcons.bed,
     FontAwesomeIcons.toilet,
     FontAwesomeIcons.couch,
