@@ -45,12 +45,6 @@ Main Screen             |  Drawer Screen
 | `id`      | `string` | **Required**. Id of item to fetch |
 
 
-
-## Authors
-
-- [@ShakoZviadauri](https://github.com/ShakoZviadauri)
-
-
 ## Clone Repository
 
 Clone the project
@@ -98,3 +92,7 @@ Start the server
 - Fetch Api Data
 - Laravel API
 
+
+## Authors
+
+- [@ShakoZviadauri](https://github.com/ShakoZviadauri)
