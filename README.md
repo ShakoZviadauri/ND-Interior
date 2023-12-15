@@ -1,8 +1,12 @@
-<h1 align="center">Hi 👋, I'm Shako</h1>
-<h3 align="center">Full Stack developer from Republic Of Georgia</h3>
+<h1 align="center">Welcome to ND Interior</h1>
 
 <br/>
-<h2 align="center">ND Interior / Dart and Flutter open source Laravel API mobile aplication</h2>
+<p align="left">Welcome to ND Interior, a cutting-edge mobile application developed using Flutter and Dart that seamlessly integrates with a Laravel-based API to bring forth an immersive 3D augmented reality experience.</p>
+
+<p align="left">This project combines the power of Flutter and Dart to create a dynamic, cross-platform mobile application. Leveraging the robustness of Laravel, it connects with a robust API to manage and deliver data efficiently.</p>
+
+<p align="left">The highlight of this project is its integration of 3D augmented reality objects, enabling users to experience an interactive and engaging environment like never before.</p>
+
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=shakozviadauri&label=Profile%20views&color=0e75b6&style=flat" alt="shakozviadauri" /> </p>
 
