@@ -14,9 +14,9 @@ The highlight of this project is its integration of 3D augmented reality objects
 
 ## Screen
 
-Main Screen             |  Solarized Ocean
+Main Screen             |  Drawer Screen
 :-------------------------:|:-------------------------:
-![](https://ndinterior.design/storage/Screenshot_20231215_175122-portrait.png)  |  ![](https://ndinterior.design/storage/Screenshot_20231215_175128-portrait.png)  |  ![](https://ndinterior.design/storage/Screenshot_20231215_175141-portrait.png)  |  ![](https://ndinterior.design/storage/Screenshot_20231215_175157-portrait.png)
+![](https://ndinterior.design/storage/Screenshot_20231215_175122-portrait.png)  |  ![](https://ndinterior.design/storage/Screenshot_20231215_175128-portrait.png)
 
 
 
@@ -95,4 +95,6 @@ Start the server
 - Fullscreen mode
 - Cross platform
 - Localization
+- Fetch Api Data
+- Laravel API
 
