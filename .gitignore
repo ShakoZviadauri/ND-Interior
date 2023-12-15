@@ -11,6 +11,11 @@ pubspec.lock
 # If you don't generate documentation locally you can remove this line.
 doc/api/
 
+lib/data
+web/
+windows/
+ios/
+
 # dotenv environment variables file
 .env*
 
